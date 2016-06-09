@@ -4,15 +4,39 @@
     <title><%= title %></title>
 	<link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
+<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Profile Incomplete</h4>
+        </div>
+        <div class="modal-body">
+          <p>Hey there, Please complete your Profile. <a href="/profile">Click here</a></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 	<div class="container">
 		<div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
               <li role="presentation" class="active"><a href="/">Home</a></li>
 			<% if ( user ) { %>
+				<li role="presentation"><a href="/profile">Update Profile</a></li>
 				<li role="presentation"><a href="/logout">Logout</a></li>
 			<% } else { %>
 				<li role="presentation"><a href="/register">Register</a></li>
@@ -24,12 +48,41 @@
       </div>
 	  <div class="jumbotron">
 	    <h1>Hello <%=user%> </h1>
-		<p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+		<p class="lead"> 
+			<% if (!user) {%> 
+				Please Login / Register
+			<% } %>
+			
+			<% if (user) {%>
+				<% if (college) { %>
+					You are studing in <%- college%>
+				<% } else { %>
+					You have not entered College Details
+				<% } %>
+				<% if (branch) { %>
+					<br>You are pursuing <%- branch %>
+				<% } else { %>
+					<br>You have not entered Branch Details
+				<% } %>
+				<% if (!college || !branch) {%> 
+					<br>Please Update your profile. <a href="/profile">Click here</a>  
+				<% }%>
+			<% } %>
+
+		</p>
 	  </div>
 	  <footer class="footer">
         <p>&copy; 2016 Abhinav Dhiman</p>
       </footer>
 	</div>
-
+<script type="text/javascript">
+<% if (user) {%>
+	<% if (!branch || !college) {%>
+		$(window).load(function(){
+			$('#myModal').modal('show');
+		});
+	<% } %>
+<% } %>
+</script>
 </body>
 </html>

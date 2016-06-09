@@ -22,5 +22,9 @@ module.exports = function (app) {
         failureFlash: true
     }));
     
+    app.route('/profile')
+        .get(users.renderProfile)
+        .post(users.update);
+
     app.get('/logout', users.logout);
 };

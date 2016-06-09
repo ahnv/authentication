@@ -26,7 +26,7 @@ var getErrorMessage = function (err) {
 exports.renderLogin = function (req, res, next) {
     if (!req.user) {
         res.render('login', {
-            title: 'Log-in Form',
+            title: 'Login',
             messages: req.flash('error') || req.flash('info')
         });
     }
@@ -38,7 +38,7 @@ exports.renderLogin = function (req, res, next) {
 exports.renderRegister = function (req, res, next) {
     if (!req.user) {
         res.render('register', {
-            title: 'Register Form',
+            title: 'Register',
             messages: req.flash('error')
         });
     }
@@ -46,6 +46,18 @@ exports.renderRegister = function (req, res, next) {
         return res.redirect('/');
     }
 };
+
+exports.renderProfile = function (req, res , next){
+    if (req.user) {
+        res.render('profile', {
+            title: 'Update Profie',
+            messages : req.flash('error')
+        });
+    }
+    else {
+        return res.redirect('/');
+    }
+}
 
 exports.register = function (req, res, next) {
     if (!req.user) {
@@ -127,7 +139,7 @@ exports.update = function (req, res, next) {
             return next(err);
         }
         else {
-            res.json(user);
+            return res.redirect('/');
         }
     });
 };
